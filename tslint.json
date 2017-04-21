@@ -1,0 +1,18 @@
+{
+  "extends": "tslint:recommended",
+  "rules": {
+    "quotemark": [true, "single"],
+    "eofline": false,
+    "ordered-imports": false,
+    "object-literal-sort-keys": false,
+    "trailing-comma": [true, {"multiline": "never", "singleline": "never"}],
+    "only-arrow-functions": false,
+    "no-shadowed-variable": false,
+    "typedef": [true,
+      "call-signature",
+      "parameter",
+      "property-declaration",
+      "member-variable-declaration"
+    ]
+  }
+}

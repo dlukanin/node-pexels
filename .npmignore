@@ -1,0 +1,9 @@
+photos
+examples
+src
+build/test
+tsconfig.json
+.gitignore
+.idea
+.travis.yml
+tslint.json

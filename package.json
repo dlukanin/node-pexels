@@ -1,0 +1,42 @@
+{
+  "name": "node-pexels",
+  "version": "0.0.1",
+  "description": "Node client for https://www.pexels.com API",
+  "main": "build/index.js",
+  "typings": "build/index",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "test": "mocha build/test/integration",
+    "lint": "tslint './src/**/*.ts' --type-check --project tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dlukanin/node-pexels.git"
+  },
+  "keywords": [
+    "pexels",
+    "api",
+    "typescript",
+    "photos"
+  ],
+  "author": "dylukanin@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dlukanin/node-pexels/issues"
+  },
+  "homepage": "https://github.com/dlukanin/node-pexels#readme",
+  "devDependencies": {
+    "@types/chai": "^3.5.1",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^7.0.13",
+    "chai": "^3.5.0",
+    "chai-json-schema": "^1.4.0",
+    "mocha": "^3.2.0",
+    "tslint": "^5.1.0",
+    "typescript": "^2.2.2"
+  },
+  "dependencies": {
+    "got": "^6.7.1"
+  }
+}
