@@ -48,7 +48,7 @@ Popular photos request.
 #### IPexelsResponse
 Response from pexels api.
 
-You can find response schema here: https://github.com/dlukanin/node-pexels/blob/master/src/test/response_schema.ts
+You can find response schema [here](https://github.com/dlukanin/node-pexels/blob/master/src/test/response_schema.ts)
 and response example on the [Pexels API](https://www.pexels.com/api) page.
 
 ## FAQ
