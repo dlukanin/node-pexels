@@ -3,9 +3,9 @@ Node client for https://www.pexels.com API
 
 [![Build Status](https://travis-ci.org/dlukanin/node-pexels.svg?branch=master)](https://travis-ci.org/dlukanin/node-pexels)
 
-Simple api client for https://www.pexels.com/ powered by got (https://www.npmjs.com/package/got)
+Simple api client for [Pexels](https://www.pexels.com/) powered by [got package](https://www.npmjs.com/package/got)
 
-Check out https://www.pexels.com/api for API usage rules and key request.
+Check out [Pexels API](https://www.pexels.com/api) for API usage rules and key request.
 
 ## Usage
 
@@ -41,3 +41,10 @@ Response from pexels api
 
 You can find response schema here: https://github.com/dlukanin/node-pexels/blob/master/src/test/response_schema.ts
 and response example on the Pexels API page.
+
+## FAQ
+#### Does client use http or https?
+Client use https. You can use http (if you *really* want to) by modifying `endpoint` property of Client function.
+
+#### I want to have Buffer object instead of image url, what should i do?
+Current version of module can't do this (hope to implement it in some future releases), you should do it in your own code.
