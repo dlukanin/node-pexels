@@ -33,7 +33,7 @@ Creates new API client instance.
 #### search(query: string, perPage?: number, page?: number): Promise\<IPexelsResponse\>
 Search request by provided query.
 
-#### search(query: string, perPage?: number, page?: number): Promise<IPexelsResponse>
+#### search(query: string, perPage?: number, page?: number): Promise\<IPexelsResponse\>
 Popular photos request.
 
 #### IPexelsResponse
