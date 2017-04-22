@@ -1,11 +1,20 @@
 # node-pexels
-Node client for https://www.pexels.com API
+Node client for https://www.pexels.com API. Typescript definitions included.
 
 [![Build Status](https://travis-ci.org/dlukanin/node-pexels.svg?branch=master)](https://travis-ci.org/dlukanin/node-pexels)
 
 Simple api client for [Pexels](https://www.pexels.com/) powered by [got package](https://www.npmjs.com/package/got).
 
 Check out [Pexels API](https://www.pexels.com/api) for API usage rules and key request.
+
+
+## Changelog
+
+#### v 0.0.2
+Some fixes in schema and ts definitions.
+
+#### v 0.0.1
+Hello, world! First version of package.
 
 ## Usage
 
