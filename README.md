@@ -3,4 +3,38 @@ Node client for https://www.pexels.com API
 
 [![Build Status](https://travis-ci.org/dlukanin/node-pexels.svg?branch=master)](https://travis-ci.org/dlukanin/node-pexels)
 
-work in progress 
+Simple api client for https://www.pexels.com/
+
+Check out https://www.pexels.com/ for API usage rules and key request.
+
+## Usage
+
+```
+const Client = require('node-pexels').Client;
+
+const client = new Client('your-api-key');
+
+client.search('people', 5, 1)
+    .then((results) => {
+        // Do something with results
+        console.log(results);
+    })
+    .catch((error) => {
+        // Something bad happened
+        console.error(error);
+    });
+```
+
+## Docs
+### Client
+#### constructor(apiKey: string)
+Creates new API client instance.
+
+#### search(query: string, perPage?: number, page?: number): Promise<IPexelsResponse>
+Search request by provided query.
+
+#### search(query: string, perPage?: number, page?: number): Promise<IPexelsResponse>
+Popular photos request.
+
+#### IPexelsResponse
+Response from pexels api

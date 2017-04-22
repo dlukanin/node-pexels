@@ -11,10 +11,10 @@ export interface IPexelsImage {
 export interface IPexelsResponse {
     page: number;
     per_page: number;
-    total_results?: number;
-    url?: string;
     next_page: string;
     photos: IPexelsImage[];
+    total_results?: number;
+    url?: string;
 }
 
 export interface IPexelsClient {
