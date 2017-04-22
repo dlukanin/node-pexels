@@ -70,7 +70,6 @@ export const responseSchema = {
     required: [
         'page',
         'per_page',
-        'next_page',
         'photos'
     ],
     properties: {
@@ -83,6 +82,9 @@ export const responseSchema = {
             minimum: 1
         },
         next_page: {
+            type: 'string'
+        },
+        prev_page: {
             type: 'string'
         },
         photos: photosSchema,

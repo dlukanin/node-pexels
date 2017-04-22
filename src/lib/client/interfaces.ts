@@ -11,8 +11,9 @@ export interface IPexelsImage {
 export interface IPexelsResponse {
     page: number;
     per_page: number;
-    next_page: string;
     photos: IPexelsImage[];
+    next_page?: string;
+    prev_page?: string;
     total_results?: number;
     url?: string;
 }
