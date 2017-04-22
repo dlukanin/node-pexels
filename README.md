@@ -3,7 +3,7 @@ Node client for https://www.pexels.com API
 
 [![Build Status](https://travis-ci.org/dlukanin/node-pexels.svg?branch=master)](https://travis-ci.org/dlukanin/node-pexels)
 
-Simple api client for [Pexels](https://www.pexels.com/) powered by [got package](https://www.npmjs.com/package/got)
+Simple api client for [Pexels](https://www.pexels.com/) powered by [got package](https://www.npmjs.com/package/got).
 
 Check out [Pexels API](https://www.pexels.com/api) for API usage rules and key request.
 
@@ -37,10 +37,10 @@ Search request by provided query.
 Popular photos request.
 
 #### IPexelsResponse
-Response from pexels api
+Response from pexels api.
 
 You can find response schema here: https://github.com/dlukanin/node-pexels/blob/master/src/test/response_schema.ts
-and response example on the Pexels API page.
+and response example on the [Pexels API](https://www.pexels.com/api) page.
 
 ## FAQ
 #### Does client use http or https?
