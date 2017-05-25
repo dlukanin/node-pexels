@@ -11,6 +11,9 @@ Check out [Pexels API](https://www.pexels.com/api) for API usage rules and key r
 
 ## Changelog
 
+#### v 0.0.3
+Some fixes in inner logic and interfaces. Added methods args validation. Some fixes in doc.
+
 #### v 0.0.2
 Some fixes in schema and ts definitions.
 
