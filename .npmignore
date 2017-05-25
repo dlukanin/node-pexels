@@ -2,6 +2,7 @@ photos
 examples
 src
 build/test
+coverage
 tsconfig.json
 .gitignore
 .idea
