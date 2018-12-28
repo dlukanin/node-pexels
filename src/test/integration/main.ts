@@ -33,7 +33,7 @@ describe('pexels client', function(): void {
         const client = new DefaultPexelsClient(config.apiKey);
         client.search('people', 5, 1)
             .then((result) => {
-                (chai as any).expect(result).to.be.jsonSchema(responseSchema);
+                chai.expect(result).to.be.jsonSchema(responseSchema);
                 done();
             })
             .catch((error) => {
@@ -45,7 +45,7 @@ describe('pexels client', function(): void {
         const client = new DefaultPexelsClient(config.apiKey);
         client.popular(5, 1)
             .then((result) => {
-                (chai as any).expect(result).to.be.jsonSchema(responseSchema);
+                chai.expect(result).to.be.jsonSchema(responseSchema);
                 done();
             })
             .catch((error) => {
