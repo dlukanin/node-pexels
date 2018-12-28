@@ -19,6 +19,7 @@ export interface IPexelsResponse {
 }
 
 export interface IPexelsClient {
+    photo(id: number): Promise<IPexelsImage>;
     search(query: string, perPage?: number, page?: number): Promise<IPexelsResponse>;
     popular(perPage?: number, page?: number): Promise<IPexelsResponse>;
 }

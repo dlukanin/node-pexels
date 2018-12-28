@@ -1,12 +1,23 @@
-import {IPexelsClient, IPexelsResponse} from './interfaces';
+import {IPexelsClient, IPexelsImage, IPexelsResponse} from './interfaces';
 import * as got from 'got';
 
 export class DefaultPexelsClient implements IPexelsClient {
     public static endpoint: string = 'https://api.pexels.com/v1/';
+    public static PHOTO_RESOURCE: string = 'photos';
     public static SEARCH_RESOURCE: string = 'search';
     public static POPULAR_RESOURCE: string = 'popular';
 
     constructor(protected apiKey: string) {}
+
+    public photo(id: number): Promise<IPexelsImage> {
+        try {
+            this.validatePhotoMethodParams(id);
+        } catch (err) {
+            return Promise.reject(err);
+        }
+
+        return this.makeRequest(`${DefaultPexelsClient.PHOTO_RESOURCE}/${id}`, {});
+    }
 
     public search(query: string, perPage?: number, page?: number): Promise<IPexelsResponse> {
         try {
@@ -35,6 +46,12 @@ export class DefaultPexelsClient implements IPexelsClient {
         });
     }
 
+    private validatePhotoMethodParams(id: any): void | never {
+        if (typeof id !== 'number') {
+            throw new Error('Pexels client: invalid id param: ' + id);
+        }
+    }
+
     private validatePageAndPerPageArguments(perPage?: any, page?: any): void | never {
         const errorFields: string[] = [];
 
@@ -58,7 +75,7 @@ export class DefaultPexelsClient implements IPexelsClient {
         }
     }
 
-    private makeRequest(resource: string, queryStringObject: {[key: string]: any}): Promise<IPexelsResponse> {
+    private makeRequest<TResponse>(resource: string, queryStringObject: {[key: string]: any}): Promise<TResponse> {
         return got(
             DefaultPexelsClient.endpoint + resource,
                 {
