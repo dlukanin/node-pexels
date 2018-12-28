@@ -34,10 +34,8 @@ const srcSchema = {
     }
 };
 
-const photosSchema = {
-    type: 'array',
-    minItems: 1,
-    uniqueItems: true,
+export const photoSchema = {
+    type: 'object',
     items: {
         type: 'object',
         required: [
@@ -63,6 +61,12 @@ const photosSchema = {
             src: srcSchema
         }
     }
+};
+
+const photosSchema = {
+    ...photoSchema,
+    type: 'array',
+    minItems: 1
 };
 
 export const responseSchema = {

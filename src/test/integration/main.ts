@@ -2,11 +2,22 @@ import {DefaultPexelsClient} from '../../lib/client/default';
 import {config} from '../config';
 import * as chai from 'chai';
 import * as jsonSchema from 'chai-json-schema';
-import {responseSchema} from '../response_schema';
+import {photoSchema, responseSchema} from '../response_schema';
 
 chai.use(jsonSchema);
 
 describe('pexels client', function(): void {
+    it('should throw error on photo method with invalid api key', function(done: MochaDone): void {
+        const client = new DefaultPexelsClient('test');
+        client.photo(0)
+            .then((result) => {
+                done('expected error, instead got ' + result);
+            })
+            .catch((error) => {
+                done();
+            });
+    });
+
     it('should throw error on search method with invalid api key', function(done: MochaDone): void {
         const client = new DefaultPexelsClient('test');
         client.search('forest', 10, 2)
@@ -26,6 +37,30 @@ describe('pexels client', function(): void {
             })
             .catch((error) => {
                 done();
+            });
+    });
+
+    it('should throw error on photo method with 404 status code', function(done: MochaDone): void {
+        const client = new DefaultPexelsClient(config.apiKey);
+        client.photo(0)
+            .then((result) => {
+                done('expected error, instead got ' + result);
+            })
+            .catch((error) => {
+                chai.expect(error.message).match(/.*404.*/);
+                done();
+            });
+    });
+
+    it('should return valid response on photo method call', function(done: MochaDone): void {
+        const client = new DefaultPexelsClient(config.apiKey);
+        client.photo(1261427)
+            .then((result) => {
+                chai.expect(result).to.be.jsonSchema(photoSchema);
+                done();
+            })
+            .catch((error) => {
+                done(error);
             });
     });
 
