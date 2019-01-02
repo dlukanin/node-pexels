@@ -46,13 +46,16 @@ Creates new API client instance.
 #### search(query: string, perPage?: number, page?: number): Promise\<IPexelsResponse\>
 Search request by provided query.
 
+#### photo(id: number): Promise<\IPexelsImage\>;
+Search request by provided query.
+
 #### popular(perPage?: number, page?: number): Promise\<IPexelsResponse\>
 Popular photos request.
 
-#### IPexelsResponse
-Response from pexels api.
+#### IPexelsResponse, IPexelsImage
+Responses from pexels api.
 
-You can find response schema [here](https://github.com/dlukanin/node-pexels/blob/master/src/test/response_schema.ts)
+You can find schemas [here](https://github.com/dlukanin/node-pexels/blob/master/src/test/response_schema.ts)
 and response example on the [Pexels API](https://www.pexels.com/api) page.
 
 ## FAQ
