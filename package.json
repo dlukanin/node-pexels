@@ -29,6 +29,8 @@
   "homepage": "https://github.com/dlukanin/node-pexels#readme",
   "devDependencies": {
     "@types/chai": "^3.5.1",
+    "@types/chai-json-schema": "^1.4.3",
+    "@types/got": "^9.2.2",
     "@types/mocha": "^2.2.41",
     "@types/node": "^7.0.13",
     "chai": "^3.5.0",
