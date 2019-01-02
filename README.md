@@ -9,7 +9,14 @@ Simple api client for [Pexels](https://www.pexels.com/) powered by [got package]
 Check out [Pexels API](https://www.pexels.com/api) for API usage rules and key request.
 
 
+## Requirements
+Node 8+
+
+
 ## Changelog
+
+#### v 0.0.4
+Added retrieving single photo method ([#1](https://github.com/dlukanin/node-pexels/pull/1))
 
 #### v 0.0.3
 Some fixes in inner logic and interfaces. Added methods args validation. Some fixes in doc.
@@ -46,7 +53,7 @@ Creates new API client instance.
 #### search(query: string, perPage?: number, page?: number): Promise\<IPexelsResponse\>
 Search request by provided query.
 
-#### photo(id: number): Promise<\IPexelsImage\>;
+#### photo(id: number): Promise\<IPexelsImage\>;
 Search request by provided query.
 
 #### popular(perPage?: number, page?: number): Promise\<IPexelsResponse\>
