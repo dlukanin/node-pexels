@@ -54,7 +54,7 @@ Creates new API client instance.
 Search request by provided query.
 
 #### photo(id: number): Promise\<IPexelsImage\>;
-Search request by provided query.
+Search photo by provided id.
 
 #### popular(perPage?: number, page?: number): Promise\<IPexelsResponse\>
 Popular photos request.
