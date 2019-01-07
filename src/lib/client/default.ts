@@ -1,4 +1,4 @@
-import {IPexelsClient, IPexelsImage, IPexelsResponse} from './interfaces';
+import {IPexelsClient, IPexelsImage, IPexelsResponse, TPexelsImageSource, IImageData} from './interfaces';
 import * as got from 'got';
 
 export class DefaultPexelsClient implements IPexelsClient {
@@ -44,6 +44,24 @@ export class DefaultPexelsClient implements IPexelsClient {
             per_page: perPage,
             page
         });
+    }
+
+    public fetch(photo: IPexelsImage, src: TPexelsImageSource): Promise<IImageData> {
+        const url = photo.src[src];
+
+        const qs = {
+            w: undefined,
+            h: undefined
+        };
+        url.replace(/([^?=&]+)(=([^&]*))?/g, (r, k, q, v) => qs[k] = v);
+
+        return this.makeRequest<string>(url, {})
+            .then((data) => ({
+                width: qs.w,
+                height: qs.h,
+                format: url.replace(/.*\.(\w*)\?.*/, '$1'),
+                data
+            }));
     }
 
     private validatePhotoMethodParams(id: any): void | never {

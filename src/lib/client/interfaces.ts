@@ -18,8 +18,16 @@ export interface IPexelsResponse {
     url?: string;
 }
 
+export interface IImageData {
+    width: number;
+    height: number;
+    format: string;
+    data: string;
+}
+
 export interface IPexelsClient {
     photo(id: number): Promise<IPexelsImage>;
     search(query: string, perPage?: number, page?: number): Promise<IPexelsResponse>;
     popular(perPage?: number, page?: number): Promise<IPexelsResponse>;
+    fetch(photo: IPexelsImage, src: TPexelsImageSource): Promise<IImageData>;
 }
