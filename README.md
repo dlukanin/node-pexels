@@ -38,6 +38,14 @@ client.search('people', 5, 1)
     .then((results) => {
         // Do something with results
         console.log(results);
+        if (results.photos.length > 0) {
+            const photo = results.photos[0];
+            const source = 'medium';
+            client.fetch(photo, source)
+            .then(file => {
+                return fs.writeFile(`image-${source}.${file.format}`, file.data);
+            });
+        }
     })
     .catch((error) => {
         // Something bad happened
@@ -59,8 +67,14 @@ Search photo by provided id.
 #### popular(perPage?: number, page?: number): Promise\<IPexelsResponse\>
 Popular photos request.
 
+### fetch(photo: IPexelsImage, src: TPexelsImageSource): Promise\<IImageData\>
+Fetch a photo file from the selected source.
+
 #### IPexelsResponse, IPexelsImage
 Responses from pexels api.
+
+#### IImageData
+Object containing an image bufer, size and format.
 
 You can find schemas [here](https://github.com/dlukanin/node-pexels/blob/master/src/test/response_schema.ts)
 and response example on the [Pexels API](https://www.pexels.com/api) page.
@@ -68,6 +82,3 @@ and response example on the [Pexels API](https://www.pexels.com/api) page.
 ## FAQ
 #### Does client use http or https?
 Client use https. You can use http (if you *really* want to) by modifying `endpoint` property of Client function.
-
-#### I want to have Buffer object instead of image url, what should i do?
-Current version of module can't do this (hope to implement it in some future releases), you should do it in your own code.
