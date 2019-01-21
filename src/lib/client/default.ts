@@ -57,13 +57,13 @@ export class DefaultPexelsClient implements IPexelsClient {
         const url = photo.src[src];
 
         const qs: any = {
-            w: '-1',
-            h: '-1'
+            w: '0',
+            h: '0'
         };
         url.replace(/([^?=&]+)(=([^&]*))?/g, (r, k, q, v) => qs[k] = v);
 
         return this.makeAbsoluteRequest<string>(url, {}, false)
-            .then((data) => ({
+            .then((data: string) => ({
                 width: Number.parseInt(qs.w),
                 height: Number.parseInt(qs.h),
                 format: url.replace(/.*\.(\w*)\?.*/, '$1'),
@@ -104,7 +104,7 @@ export class DefaultPexelsClient implements IPexelsClient {
         return got.get(url,
             {
                 ...(json? {json: true} : {}),
-                query: queryStringObject,
+                ...(Object.keys(queryStringObject).length? {query: queryStringObject} : {}),
                 headers: {Authorization: this.apiKey}
             })
             .then((response: any) => response.body)
