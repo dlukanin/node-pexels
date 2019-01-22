@@ -2,12 +2,19 @@ import {IPexelsClient, IPexelsImage, IPexelsResponse, TPexelsImageSource, IImage
 import * as got from 'got';
 
 export class DefaultPexelsClient implements IPexelsClient {
-    public static endpoint: string = 'https://api.pexels.com/v1/';
+    public static BASE_ENDPOINT: string = 'api.pexels.com/v1/';
     public static PHOTO_RESOURCE: string = 'photos';
     public static SEARCH_RESOURCE: string = 'search';
     public static POPULAR_RESOURCE: string = 'popular';
+    protected endpoint: string = '';
 
-    constructor(protected apiKey: string) {}
+    constructor(protected apiKey: string, https: boolean = true) {
+        this.useHttps(https);
+    }
+
+    public useHttps(v: boolean = true): void {
+        this.endpoint = `${v ? 'https' : 'http'}://${DefaultPexelsClient.BASE_ENDPOINT}`;
+    }
 
     public photo(id: number): Promise<IPexelsImage> {
         try {
@@ -49,16 +56,16 @@ export class DefaultPexelsClient implements IPexelsClient {
     public fetch(photo: IPexelsImage, src: TPexelsImageSource): Promise<IImageData> {
         const url = photo.src[src];
 
-        const qs = {
-            w: undefined,
-            h: undefined
+        const qs: any = {
+            w: '0',
+            h: '0'
         };
         url.replace(/([^?=&]+)(=([^&]*))?/g, (r, k, q, v) => qs[k] = v);
 
-        return this.makeRequest<string>(url, {})
-            .then((data) => ({
-                width: qs.w,
-                height: qs.h,
+        return this.makeAbsoluteRequest<string>(url, {}, false)
+            .then((data: string) => ({
+                width: Number.parseInt(qs.w),
+                height: Number.parseInt(qs.h),
                 format: url.replace(/.*\.(\w*)\?.*/, '$1'),
                 data
             }));
@@ -93,18 +100,20 @@ export class DefaultPexelsClient implements IPexelsClient {
         }
     }
 
-    private makeRequest<TResponse>(resource: string, queryStringObject: {[key: string]: any}): Promise<TResponse> {
-        return got(
-            DefaultPexelsClient.endpoint + resource,
-                {
-                    json: true,
-                    query: queryStringObject,
-                    headers: {Authorization: ' ' + this.apiKey}
-                }
-            )
+    private makeAbsoluteRequest<TResponse>(url: string, queryStringObject: {[key: string]: any} = {}, json: boolean=true): Promise<TResponse> {
+        return got.get(url,
+            {
+                ...(json? {json: true} : {}),
+                ...(Object.keys(queryStringObject).length? {query: queryStringObject} : {}),
+                headers: {Authorization: this.apiKey}
+            })
             .then((response: any) => response.body)
             .catch((error: any) => {
                 throw new Error('Pexels api request failed: ' + error.message);
             });
+    }
+
+    private makeRequest<TResponse>(resource: string, queryStringObject: {[key: string]: any} = {}, json: boolean=true): Promise<TResponse> {
+        return this.makeAbsoluteRequest(this.endpoint + resource, queryStringObject);
     }
 }
