@@ -100,11 +100,14 @@ export class DefaultPexelsClient implements IPexelsClient {
         }
     }
 
-    private makeAbsoluteRequest<TResponse>(url: string, queryStringObject: {[key: string]: any} = {}, json: boolean=true): Promise<TResponse> {
+    private makeAbsoluteRequest<TResponse>(
+        url: string, queryStringObject: {[key: string]: any} = {}, json: boolean = true
+    ): Promise<TResponse> {
+
         return got.get(url,
             {
-                ...(json? {json: true} : {}),
-                ...(Object.keys(queryStringObject).length? {query: queryStringObject} : {}),
+                ...(json ? {json: true} : {}),
+                ...(Object.keys(queryStringObject).length ? {query: queryStringObject} : {}),
                 headers: {Authorization: this.apiKey}
             })
             .then((response: any) => response.body)
@@ -113,7 +116,12 @@ export class DefaultPexelsClient implements IPexelsClient {
             });
     }
 
-    private makeRequest<TResponse>(resource: string, queryStringObject: {[key: string]: any} = {}, json: boolean=true): Promise<TResponse> {
-        return this.makeAbsoluteRequest(this.endpoint + resource, queryStringObject);
+    private makeRequest<TResponse>(
+        resource: string,
+        queryStringObject: {[key: string]: any} = {},
+        json: boolean = true
+    ): Promise<TResponse> {
+
+        return this.makeAbsoluteRequest(this.endpoint + resource, queryStringObject, json);
     }
 }
