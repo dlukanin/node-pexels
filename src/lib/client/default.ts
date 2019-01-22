@@ -64,8 +64,8 @@ export class DefaultPexelsClient implements IPexelsClient {
 
         return this.makeAbsoluteRequest<string>(url, {}, false)
             .then((data: string) => ({
-                width: Number.parseInt(qs.w),
-                height: Number.parseInt(qs.h),
+                width: parseInt(qs.w, 10),
+                height: parseInt(qs.h, 10),
                 format: url.replace(/.*\.(\w*)\?.*/, '$1'),
                 data
             }));
