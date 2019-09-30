@@ -15,6 +15,9 @@ Node 8+
 
 ## Changelog
 
+#### v 0.0.5
+Fixes, deps update, etc.
+
 #### v 0.0.4
 Added retrieving single photo method ([#1](https://github.com/dlukanin/node-pexels/pull/1))
 
@@ -31,6 +34,7 @@ Hello, world! First version of package.
 
 ```
 const Client = require('node-pexels').Client;
+const fs = require('fs');
 
 const client = new Client('your-api-key');
 
@@ -41,11 +45,27 @@ client.search('people', 5, 1)
         if (results.photos.length > 0) {
             const photo = results.photos[0];
             const source = 'medium';
-            client.fetch(photo, source)
-            .then(file => {
-                return fs.writeFile(`image-${source}.${file.format}`, file.data);
-            });
+
+            return client.fetch(photo, source)
+        } else {
+            throw new Error('no results found');
         }
+    })
+    .then((file) => {
+        return new Promise(
+            (reject, resolve) => {
+                fs.writeFile(
+                    `./img.${file.format}`,
+                    file.data,
+                    (err) => {
+                        if (err) {
+                            reject(err);
+                        }
+                        resolve();
+                    }
+                );
+            }
+        );
     })
     .catch((error) => {
         // Something bad happened
@@ -74,7 +94,7 @@ Fetch a photo file from the selected source.
 Responses from pexels api.
 
 #### IImageData
-Object containing an image bufer, size and format.
+Object containing an image buffer, and format.
 
 You can find schemas [here](https://github.com/dlukanin/node-pexels/blob/master/src/test/response_schema.ts)
 and response example on the [Pexels API](https://www.pexels.com/api) page.
