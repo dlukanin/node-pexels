@@ -2,11 +2,13 @@ import {DefaultPexelsClient} from '../../lib/client/default';
 import {config} from '../config';
 import * as chai from 'chai';
 import * as jsonSchema from 'chai-json-schema';
-import {photoSchema, responseSchema} from '../response_schema';
+import {fetchSchema, photoSchema, responseSchema} from '../response_schema';
 
 chai.use(jsonSchema);
 
 describe('pexels client', function(): void {
+    this.timeout(20000);
+
     it('should throw error on photo method with invalid api key', function(done: MochaDone): void {
         const client = new DefaultPexelsClient('test');
         client.photo(0)
@@ -81,6 +83,23 @@ describe('pexels client', function(): void {
         client.popular(5, 1)
             .then((result) => {
                 chai.expect(result).to.be.jsonSchema(responseSchema);
+                done();
+            })
+            .catch((error) => {
+                done(error);
+            });
+    });
+
+    it('should fetch photo', function(done: MochaDone): void {
+        const client = new DefaultPexelsClient(config.apiKey);
+        client.popular(5, 1)
+            .then((result) => {
+                return client.fetch(result.photos[1], 'small');
+            })
+            .then((result) => {
+                chai.expect(result).to.be.jsonSchema(fetchSchema);
+                chai.expect(result.data).to.be.instanceOf(Buffer);
+
                 done();
             })
             .catch((error) => {

@@ -101,3 +101,19 @@ export const responseSchema = {
         }
     }
 };
+
+export const fetchSchema = {
+    type: 'object',
+    required: [
+        'format',
+        'data'
+    ],
+    properties: {
+        format: {
+            type: 'string'
+        },
+        data: {
+            type: 'object'
+        }
+    }
+};

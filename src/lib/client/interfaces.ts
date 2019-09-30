@@ -19,10 +19,8 @@ export interface IPexelsResponse {
 }
 
 export interface IImageData {
-    width: number;
-    height: number;
     format: string;
-    data: string;
+    data: Buffer;
 }
 
 export interface IPexelsClient {

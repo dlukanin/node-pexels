@@ -1,5 +1,6 @@
 import {IPexelsClient, IPexelsImage, IPexelsResponse, TPexelsImageSource, IImageData} from './interfaces';
 import * as got from 'got';
+import * as path from 'path';
 
 export class DefaultPexelsClient implements IPexelsClient {
     public static BASE_ENDPOINT: string = 'api.pexels.com/v1/';
@@ -56,17 +57,9 @@ export class DefaultPexelsClient implements IPexelsClient {
     public fetch(photo: IPexelsImage, src: TPexelsImageSource): Promise<IImageData> {
         const url = photo.src[src];
 
-        const qs: any = {
-            w: '0',
-            h: '0'
-        };
-        url.replace(/([^?=&]+)(=([^&]*))?/g, (r, k, q, v) => qs[k] = v);
-
-        return this.makeAbsoluteRequest<string>(url, {}, false)
-            .then((data: string) => ({
-                width: parseInt(qs.w, 10),
-                height: parseInt(qs.h, 10),
-                format: url.replace(/.*\.(\w*)\?.*/, '$1'),
+        return this.makeAbsoluteRequest<Buffer>(url, {}, false)
+            .then((data: Buffer) => ({
+                format: path.extname(url.split('?')[0].split('#')[0]).replace('.', ''),
                 data
             }));
     }
@@ -106,7 +99,7 @@ export class DefaultPexelsClient implements IPexelsClient {
 
         return got.get(url,
             {
-                ...(json ? {json: true} : {}),
+                ...(json ? {json: true} : {encoding: null}),
                 ...(Object.keys(queryStringObject).length ? {query: queryStringObject} : {}),
                 headers: {Authorization: this.apiKey}
             })
