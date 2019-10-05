@@ -1,5 +1,5 @@
 # node-pexels
-Node client for https://www.pexels.com API. Typescript definitions included.
+Node unofiicial client for https://www.pexels.com API. Typescript definitions included.
 
 [![Build Status](https://travis-ci.org/dlukanin/node-pexels.svg?branch=master)](https://travis-ci.org/dlukanin/node-pexels)
 [![Coverage Status](https://coveralls.io/repos/github/dlukanin/node-pexels/badge.svg)](https://coveralls.io/github/dlukanin/node-pexels)
