@@ -3,6 +3,7 @@
 1. Write your code.
 1. Use MIT licensed libs.
 1. Writing tests is great.
+1. Updating docs is great too.
 1. Do not forget to `npm t` and `npm run lint` before making pull request
 1. Create pull request.
 1. Thank you :)
