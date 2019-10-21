@@ -1,120 +1,47 @@
-import {IPexelsClient, IPexelsImage, IPexelsResponse, TPexelsImageSource, IImageData} from './interfaces';
-import * as got from 'got';
-import * as path from 'path';
+import { IPexelsClient } from './interfaces';
+import { GotHttpClient } from '../http/got.http.client';
+import { PhotosResource } from '../resources/photos.resource';
+import { VideosResource } from '../resources/videos.resource';
+import { EImageFormat } from '../resources/photos.resource.interface';
+
+export interface IPexelsClientConstructorParams {
+    readonly apiKey: string;
+    readonly apiVersion?: string;
+}
 
 export class DefaultPexelsClient implements IPexelsClient {
-    public static BASE_ENDPOINT: string = 'api.pexels.com/v1/';
-    public static PHOTO_RESOURCE: string = 'photos';
-    public static SEARCH_RESOURCE: string = 'search';
-    public static POPULAR_RESOURCE: string = 'popular';
-    protected endpoint: string = '';
 
-    constructor(protected apiKey: string, https: boolean = true) {
-        this.useHttps(https);
+    private readonly baseUrl: string = 'https://api.pexels.com';
+    private readonly apiKey: string;
+    private readonly apiVersion: string;
+
+    private readonly photosResource: PhotosResource;
+    private readonly videosResource: VideosResource;
+
+    constructor(kwargs: IPexelsClientConstructorParams) {
+        this.apiKey = kwargs.apiKey;
+        this.apiVersion = kwargs.apiVersion || 'v1';
+
+        const httpClient = new GotHttpClient();
+
+        this.photosResource = new PhotosResource(
+            this.apiKey,
+            `${this.baseUrl}/${this.apiVersion}`,
+            httpClient
+        );
+
+        this.videosResource = new VideosResource(
+            this.apiKey,
+            this.baseUrl,
+            httpClient
+        );
     }
 
-    public useHttps(v: boolean = true): void {
-        this.endpoint = `${v ? 'https' : 'http'}://${DefaultPexelsClient.BASE_ENDPOINT}`;
+    public get photos(): PhotosResource {
+        return this.photosResource;
     }
 
-    public photo(id: number): Promise<IPexelsImage> {
-        try {
-            this.validatePhotoMethodParams(id);
-        } catch (err) {
-            return Promise.reject(err);
-        }
-
-        return this.makeRequest(`${DefaultPexelsClient.PHOTO_RESOURCE}/${id}`, {});
-    }
-
-    public search(query: string, perPage?: number, page?: number): Promise<IPexelsResponse> {
-        try {
-            this.validateSearchMethodParams(query, perPage, page);
-        } catch (err) {
-            return Promise.reject(err);
-        }
-
-        return this.makeRequest(DefaultPexelsClient.SEARCH_RESOURCE, {
-            query,
-            per_page: perPage,
-            page
-        });
-    }
-
-    public popular(perPage?: number, page?: number): Promise<IPexelsResponse> {
-        try {
-            this.validatePageAndPerPageArguments(perPage, page);
-        } catch (err) {
-            return Promise.reject(err);
-        }
-
-        return this.makeRequest(DefaultPexelsClient.POPULAR_RESOURCE, {
-            per_page: perPage,
-            page
-        });
-    }
-
-    public fetch(photo: IPexelsImage, src: TPexelsImageSource): Promise<IImageData> {
-        const url = photo.src[src];
-
-        return this.makeAbsoluteRequest<Buffer>(url, {}, false)
-            .then((data: Buffer) => ({
-                format: path.extname(url.split('?')[0].split('#')[0]).replace('.', ''),
-                data
-            }));
-    }
-
-    private validatePhotoMethodParams(id: any): void | never {
-        if (typeof id !== 'number') {
-            throw new Error('Pexels client: invalid id param: ' + id);
-        }
-    }
-
-    private validatePageAndPerPageArguments(perPage?: any, page?: any): void | never {
-        const errorFields: string[] = [];
-
-        if (typeof perPage !== 'undefined' && typeof perPage !== 'number') {
-            errorFields.push(perPage);
-        }
-        if (typeof page !== 'undefined' && typeof page !== 'number') {
-            errorFields.push(page);
-        }
-
-        if (errorFields.length) {
-            throw new Error('Pexels client: invalid fields passed to method ' + errorFields);
-        }
-    }
-
-    private validateSearchMethodParams(query: any, perPage?: any, page?: any): void | never {
-        this.validatePageAndPerPageArguments(perPage, page);
-
-        if (typeof query !== 'string') {
-            throw new Error('Pexels client: invalid query param: ' + query);
-        }
-    }
-
-    private makeAbsoluteRequest<TResponse>(
-        url: string, queryStringObject: {[key: string]: any} = {}, json: boolean = true
-    ): Promise<TResponse> {
-
-        return got.get(url,
-            {
-                ...(json ? {json: true} : {encoding: null}),
-                ...(Object.keys(queryStringObject).length ? {query: queryStringObject} : {}),
-                headers: {Authorization: this.apiKey}
-            })
-            .then((response: any) => response.body)
-            .catch((error: any) => {
-                throw new Error('Pexels api request failed: ' + error.message);
-            });
-    }
-
-    private makeRequest<TResponse>(
-        resource: string,
-        queryStringObject: {[key: string]: any} = {},
-        json: boolean = true
-    ): Promise<TResponse> {
-
-        return this.makeAbsoluteRequest(this.endpoint + resource, queryStringObject, json);
+    public get videos(): VideosResource {
+        return this.videosResource;
     }
 }

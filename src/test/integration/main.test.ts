@@ -1,108 +1,114 @@
-import {DefaultPexelsClient} from '../../lib/client/default';
-import {config} from '../config';
-import {matchers} from 'jest-json-schema';
-import {fetchSchema, photoSchema, responseSchema} from '../response_schema';
+import { DefaultPexelsClient } from '../../lib/client/default';
+import { matchers } from 'jest-json-schema';
+import { config } from '../config';
+import { fetchSchema, photoSchema, responseSchema } from '../response_schema';
 
 expect.extend(matchers);
 
 describe('pexels client integration tests', (): void => {
     jest.setTimeout(20000);
 
-    it('should throw error on photo method with invalid api key', (done: jest.DoneCallback): void => {
-        const client = new DefaultPexelsClient('test');
-        client.photo(0)
-            .then((result) => {
-                done('expected error, instead got ' + result);
-            })
-            .catch((error) => {
-                done();
-            });
+    it('should throw error on photo method with invalid api key', async (done: jest.DoneCallback): Promise<void> => {
+        const client = new DefaultPexelsClient({ apiKey: 'test' });
+
+        try {
+            const photo = await client.photos.get(0);
+
+            done('expected error, instead got ',  photo);
+        } catch (err) {
+            done();
+        }
     });
 
-    it('should throw error on search method with invalid api key', (done: jest.DoneCallback): void => {
-        const client = new DefaultPexelsClient('test');
-        client.search('forest', 10, 2)
-            .then((result) => {
-                done('expected error, instead got ' + result);
-            })
-            .catch((error) => {
-                done();
-            });
+    it('should throw error on search method with invalid api key', async (done: jest.DoneCallback): Promise<void> => {
+        const client = new DefaultPexelsClient({ apiKey: 'test' });
+
+        try {
+            const photos = await client.photos.search('forest', { page: 10, perPage: 2 });
+
+            done('expected error, instead got ', photos);
+        } catch (err) {
+            done();
+        }
     });
 
-    it('should throw error on popular method with invalid api key', (done: jest.DoneCallback): void => {
-        const client = new DefaultPexelsClient('test');
-        client.popular(10, 2)
-            .then((result) => {
-                done('expected error, instead got ' + result);
-            })
-            .catch((error) => {
-                done();
-            });
+    it('should throw error on popular method with invalid api key', async (done: jest.DoneCallback): Promise<void> => {
+        const client = new DefaultPexelsClient({ apiKey: 'test' });
+
+        try {
+            const photos = await client.photos.curated(10, 2);
+
+            done('expected error, instead got ', photos);
+        } catch (err) {
+            done();
+        }
     });
 
-    it('should throw error on photo method with 404 status code', (done: jest.DoneCallback): void => {
-        const client = new DefaultPexelsClient(config.apiKey);
-        client.photo(0)
-            .then((result) => {
-                done('expected error, instead got ' + result);
-            })
-            .catch((error) => {
-                expect(error.message).toMatch(/.*404.*/);
-                done();
-            });
+    it('should throw error on photo method with 404 status code', async (done: jest.DoneCallback): Promise<void> => {
+        const client = new DefaultPexelsClient({ apiKey: config.apiKey });
+
+        try {
+            const photo = await client.photos.get(0);
+
+            done('expected error, instead got ', photo);
+        } catch (err) {
+            expect(err.message).toMatch(/.*404.*/);
+            done();
+        }
     });
 
-    it('should return valid response on photo method call', (done: jest.DoneCallback): void => {
-        const client = new DefaultPexelsClient(config.apiKey);
-        client.photo(1261427)
-            .then((result) => {
-                expect(result).toMatchSchema(photoSchema);
-                done();
-            })
-            .catch((error) => {
-                done(error);
-            });
+    it('should return valid response on photo method call', async (done: jest.DoneCallback): Promise<void> => {
+        const client = new DefaultPexelsClient({ apiKey: config.apiKey });
+
+        try {
+            const photo = await client.photos.get(1261427);
+
+            expect(photo).toMatchSchema(photoSchema);
+            done();
+        } catch (err) {
+            done(err);
+        }
     });
 
-    it('should return valid response on search method call', (done: jest.DoneCallback): void => {
-        const client = new DefaultPexelsClient(config.apiKey);
-        client.search('people', 5, 1)
-            .then((result) => {
-                expect(result).toMatchSchema(responseSchema);
-                done();
-            })
-            .catch((error) => {
-                done(error);
-            });
+    it('should return valid response on search method call', async (done: jest.DoneCallback): Promise<void> => {
+        const client = new DefaultPexelsClient({ apiKey: config.apiKey });
+
+        try {
+            const photos = await client.photos.search('people', { perPage: 5, page: 1 });
+
+            expect(photos).toMatchSchema(responseSchema);
+            done();
+        } catch (err) {
+            done(err);
+        }
     });
 
-    it('should return valid response on popular method call', (done: jest.DoneCallback): void => {
-        const client = new DefaultPexelsClient(config.apiKey);
-        client.popular(5, 1)
-            .then((result) => {
-                expect(result).toMatchSchema(responseSchema);
-                done();
-            })
-            .catch((error) => {
-                done(error);
-            });
+    it('should return valid response on popular method call', async (done: jest.DoneCallback): Promise<void> => {
+        const client = new DefaultPexelsClient({ apiKey: config.apiKey });
+
+        try {
+            const photos = await client.photos.curated(5, 1);
+
+            expect(photos).toMatchSchema(responseSchema);
+            done();
+        } catch (err) {
+            done(err);
+        }
     });
 
-    it('should fetch photo', (done: jest.DoneCallback): void => {
-        const client = new DefaultPexelsClient(config.apiKey);
-        client.popular(5, 1)
-            .then((result) => {
-                return client.fetch(result.photos[1], 'small');
-            })
-            .then((result) => {
-                expect(result).toMatchSchema(fetchSchema);
-                expect(result.data).toBeInstanceOf(Buffer);
+    it('should fetch photo', async (done: jest.DoneCallback): Promise<void> => {
+        const client = new DefaultPexelsClient({ apiKey: config.apiKey });
 
-                done();
-            })
-            .catch((error) => {
-                done(error);
-            });
+        try {
+            const photos = await client.photos.curated();
+            const photo = await client.photos.fetch(photos.photos[1], 'small');
+
+            expect(photo).toMatchSchema(fetchSchema);
+            expect(photo.data).toBeInstanceOf(Buffer);
+
+            done();
+        } catch (err) {
+            done(err);
+        }
     });
 });
