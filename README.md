@@ -10,7 +10,7 @@ Check out [Pexels API](https://www.pexels.com/api) for API usage rules and key r
 
 
 ## Requirements
-Node 8+
+Node 10+
 
 
 ## Changelog
