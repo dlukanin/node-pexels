@@ -15,6 +15,9 @@ Node 8+
 
 ## Changelog
 
+#### v 1.0.0
+Security updates. Removed es5 support in lib.
+
 #### v 0.0.5
 Fixes, deps update, etc.
 
