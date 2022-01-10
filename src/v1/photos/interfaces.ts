@@ -19,6 +19,7 @@ export interface IPexelsImage {
 export interface IImageData {
     format: string;
     data: Buffer;
+    source: string;
 }
 
 export enum EImageFormat {

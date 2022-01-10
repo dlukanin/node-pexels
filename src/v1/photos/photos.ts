@@ -79,7 +79,7 @@ export class PhotosV1Resource {
 
         const format = Path.extname(url.split('?')[0].split('#')[0]).replace('.', '');
 
-        return { format, data };
+        return { format, data, source: src };
     }
 
     private validatePhotoMethodParams(id: any): void | never {
