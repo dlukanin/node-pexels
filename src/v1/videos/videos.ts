@@ -1,10 +1,10 @@
-import { IHttpClient } from '../../http/http.client.interface';
+import { IHttpClient } from '../../common/http/interfaces';
 import {
     ISearchVideosParams,
     IPopularVideosParams,
     IVideoResponse,
     ISearchVideosResponse
-} from './videos.resource.interface';
+} from './interfaces';
 
 export class VideosV1Resource {
 

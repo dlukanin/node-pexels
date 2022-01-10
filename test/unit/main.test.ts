@@ -1,9 +1,18 @@
-import { DefaultPexelsClient } from '../../src/client/default';
+import { Client, IPexelsClient } from '../../src';
 
 describe('pexels client units tests', (): void => {
 
-    it('should throw error after passing invalid photo param', async (done: jest.DoneCallback): Promise<void> => {
-        const client = new DefaultPexelsClient({ apiKey: 'test' });
+    let client: IPexelsClient;
+
+    beforeAll(() => {
+        client = new Client({ apiKey: 'test' });
+    });
+
+    afterAll(() => {
+        client = undefined;
+    });
+
+    it('should throw error after passing invalid photo param', async (done) => {
         const param = '0' as any;
 
         try {
@@ -16,9 +25,7 @@ describe('pexels client units tests', (): void => {
         }
     });
 
-    it('should throw error after passing invalid search params', async (done: jest.DoneCallback): Promise<void> => {
-        const client = new DefaultPexelsClient({ apiKey: 'test' });
-
+    it('should throw error after passing invalid search params', async (done) => {
         try {
             const photos = await client.v1.photos.search('forest', { perPage: '10' as any, page: null });
 
@@ -37,9 +44,7 @@ describe('pexels client units tests', (): void => {
         }
     });
 
-    it('should throw error after passing invalid popular params', async (done: jest.DoneCallback): Promise<void> => {
-        const client = new DefaultPexelsClient({ apiKey: 'test' });
-
+    it('should throw error after passing invalid popular params', async (done) => {
         try {
             const photos = await client.v1.photos.curated(10, 'f' as any);
 

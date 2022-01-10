@@ -1,4 +1,4 @@
-import { IHttpClient, IRequestParams } from './http.client.interface';
+import { IHttpClient, IRequestParams } from './interfaces';
 import * as Got from 'got';
 
 export class GotHttpClient implements IHttpClient {

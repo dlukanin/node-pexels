@@ -1,15 +1,25 @@
-import { DefaultPexelsClient } from '../../src/client/default';
 import { matchers } from 'jest-json-schema';
+import { Client, IPexelsClient } from '../../src';
 import { config } from '../config';
 import { fetchSchema, photoSchema, responseSchema } from '../response_schema';
 
 expect.extend(matchers);
 
 describe('pexels client integration tests', (): void => {
+    let client: IPexelsClient;
+
     jest.setTimeout(20000);
 
+    beforeAll(() => {
+        client = new Client({ apiKey: config.apiKey });
+    });
+
+    afterAll(() => {
+        client = undefined;
+    });
+
     it('should throw error on photo method with invalid api key', async (done: jest.DoneCallback): Promise<void> => {
-        const client = new DefaultPexelsClient({ apiKey: 'test' });
+        const client = new Client({ apiKey: 'test' });
 
         try {
             const photo = await client.v1.photos.get(0);
@@ -21,7 +31,7 @@ describe('pexels client integration tests', (): void => {
     });
 
     it('should throw error on search method with invalid api key', async (done: jest.DoneCallback): Promise<void> => {
-        const client = new DefaultPexelsClient({ apiKey: 'test' });
+        const client = new Client({ apiKey: 'test' });
 
         try {
             const photos = await client.v1.photos.search('forest', { page: 10, perPage: 2 });
@@ -33,7 +43,7 @@ describe('pexels client integration tests', (): void => {
     });
 
     it('should throw error on popular method with invalid api key', async (done: jest.DoneCallback): Promise<void> => {
-        const client = new DefaultPexelsClient({ apiKey: 'test' });
+        const client = new Client({ apiKey: 'test' });
 
         try {
             const photos = await client.v1.photos.curated(10, 2);
@@ -45,8 +55,6 @@ describe('pexels client integration tests', (): void => {
     });
 
     it('should throw error on photo method with 404 status code', async (done: jest.DoneCallback): Promise<void> => {
-        const client = new DefaultPexelsClient({ apiKey: config.apiKey });
-
         try {
             const photo = await client.v1.photos.get(0);
 
@@ -58,8 +66,6 @@ describe('pexels client integration tests', (): void => {
     });
 
     it('should return valid response on photo method call', async (done: jest.DoneCallback): Promise<void> => {
-        const client = new DefaultPexelsClient({ apiKey: config.apiKey });
-
         try {
             const photo = await client.v1.photos.get(1261427);
 
@@ -71,8 +77,6 @@ describe('pexels client integration tests', (): void => {
     });
 
     it('should return valid response on search method call', async (done: jest.DoneCallback): Promise<void> => {
-        const client = new DefaultPexelsClient({ apiKey: config.apiKey });
-
         try {
             const photos = await client.v1.photos.search('people', { perPage: 5, page: 1 });
 
@@ -84,8 +88,6 @@ describe('pexels client integration tests', (): void => {
     });
 
     it('should return valid response on popular method call', async (done: jest.DoneCallback): Promise<void> => {
-        const client = new DefaultPexelsClient({ apiKey: config.apiKey });
-
         try {
             const photos = await client.v1.photos.curated(5, 1);
 
@@ -97,8 +99,6 @@ describe('pexels client integration tests', (): void => {
     });
 
     it('should fetch photo', async (done: jest.DoneCallback): Promise<void> => {
-        const client = new DefaultPexelsClient({ apiKey: config.apiKey });
-
         try {
             const photos = await client.v1.photos.curated();
             const photo = await client.v1.photos.fetch(photos.photos[1], 'small');

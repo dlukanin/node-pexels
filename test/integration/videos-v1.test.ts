@@ -1,8 +1,7 @@
-import { DefaultPexelsClient } from '../../src/client/default';
 import { matchers } from 'jest-json-schema';
+import { Client, IPexelsClient } from '../../src';
 import { config } from '../config';
 import { videoV1Schema } from '../response_schema';
-import { IPexelsClient } from '../../src/client/interfaces';
 
 expect.extend(matchers);
 
@@ -12,7 +11,7 @@ describe('Videos v1 tests', (): void => {
     let client: IPexelsClient;
 
     beforeAll(() => {
-        client = new DefaultPexelsClient({ apiKey: config.apiKey });
+        client = new Client({ apiKey: config.apiKey });
     });
 
     afterAll(() => {
@@ -20,7 +19,7 @@ describe('Videos v1 tests', (): void => {
     });
 
     it('should throw 401 error with invalid api key', async (done) => {
-        const client = new DefaultPexelsClient({ apiKey: 'test' });
+        const client = new Client({ apiKey: 'test' });
 
         try {
             const photo = await client.v1.photos.get(0);

@@ -1,6 +1,6 @@
-import { IHttpClient } from '../http/http.client.interface';
-import { PhotosV1Resource } from './photos/photos.resource';
-import { VideosV1Resource } from './videos/videos.resource';
+import { IHttpClient } from '../common/http/interfaces';
+import { PhotosV1Resource } from './photos/photos';
+import { VideosV1Resource } from './videos/videos';
 
 export class V1 implements V1 {
     private readonly _photosResource: PhotosV1Resource;
