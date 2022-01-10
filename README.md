@@ -10,10 +10,13 @@ Check out [Pexels API](https://www.pexels.com/api) for API usage rules and key r
 
 
 ## Requirements
-Node 8+
+Node 10+
 
 
 ## Changelog
+
+#### v 1.0.0
+Security updates. Removed es5 support in lib.
 
 #### v 0.0.5
 Fixes, deps update, etc.

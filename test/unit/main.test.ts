@@ -1,4 +1,4 @@
-import { DefaultPexelsClient } from '../../lib/client/default';
+import { DefaultPexelsClient } from '../../src/client/default';
 
 describe('pexels client units tests', (): void => {
 
@@ -7,7 +7,7 @@ describe('pexels client units tests', (): void => {
         const param = '0' as any;
 
         try {
-            const photo = await client.photos.get(param);
+            const photo = await client.v1.photos.get(param);
 
             done('expected error, instead got ', photo);
         } catch (err) {
@@ -20,14 +20,14 @@ describe('pexels client units tests', (): void => {
         const client = new DefaultPexelsClient({ apiKey: 'test' });
 
         try {
-            const photos = await client.photos.search('forest', { perPage: '10' as any, page: null });
+            const photos = await client.v1.photos.search('forest', { perPage: '10' as any, page: null });
 
             done('expected error, instead got ', photos);
         } catch (err) {
             expect(err.message).toBe('Pexels client: invalid fields passed to method ' + ['10', null]);
 
             try {
-                const photos = await client.photos.search(123 as any, { perPage: 10, page: 2 });
+                const photos = await client.v1.photos.search(123 as any, { perPage: 10, page: 2 });
 
                 done('expected error, instead got ', photos);
             } catch (err) {
@@ -41,7 +41,7 @@ describe('pexels client units tests', (): void => {
         const client = new DefaultPexelsClient({ apiKey: 'test' });
 
         try {
-            const photos = await client.photos.curated(10, 'f' as any);
+            const photos = await client.v1.photos.curated(10, 'f' as any);
 
             done('expected error, instead got ', photos);
         } catch (err) {

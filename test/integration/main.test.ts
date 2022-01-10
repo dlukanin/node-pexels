@@ -1,4 +1,4 @@
-import { DefaultPexelsClient } from '../../lib/client/default';
+import { DefaultPexelsClient } from '../../src/client/default';
 import { matchers } from 'jest-json-schema';
 import { config } from '../config';
 import { fetchSchema, photoSchema, responseSchema } from '../response_schema';
@@ -12,7 +12,7 @@ describe('pexels client integration tests', (): void => {
         const client = new DefaultPexelsClient({ apiKey: 'test' });
 
         try {
-            const photo = await client.photos.get(0);
+            const photo = await client.v1.photos.get(0);
 
             done('expected error, instead got ',  photo);
         } catch (err) {
@@ -24,7 +24,7 @@ describe('pexels client integration tests', (): void => {
         const client = new DefaultPexelsClient({ apiKey: 'test' });
 
         try {
-            const photos = await client.photos.search('forest', { page: 10, perPage: 2 });
+            const photos = await client.v1.photos.search('forest', { page: 10, perPage: 2 });
 
             done('expected error, instead got ', photos);
         } catch (err) {
@@ -36,7 +36,7 @@ describe('pexels client integration tests', (): void => {
         const client = new DefaultPexelsClient({ apiKey: 'test' });
 
         try {
-            const photos = await client.photos.curated(10, 2);
+            const photos = await client.v1.photos.curated(10, 2);
 
             done('expected error, instead got ', photos);
         } catch (err) {
@@ -48,7 +48,7 @@ describe('pexels client integration tests', (): void => {
         const client = new DefaultPexelsClient({ apiKey: config.apiKey });
 
         try {
-            const photo = await client.photos.get(0);
+            const photo = await client.v1.photos.get(0);
 
             done('expected error, instead got ', photo);
         } catch (err) {
@@ -61,7 +61,7 @@ describe('pexels client integration tests', (): void => {
         const client = new DefaultPexelsClient({ apiKey: config.apiKey });
 
         try {
-            const photo = await client.photos.get(1261427);
+            const photo = await client.v1.photos.get(1261427);
 
             expect(photo).toMatchSchema(photoSchema);
             done();
@@ -74,7 +74,7 @@ describe('pexels client integration tests', (): void => {
         const client = new DefaultPexelsClient({ apiKey: config.apiKey });
 
         try {
-            const photos = await client.photos.search('people', { perPage: 5, page: 1 });
+            const photos = await client.v1.photos.search('people', { perPage: 5, page: 1 });
 
             expect(photos).toMatchSchema(responseSchema);
             done();
@@ -87,7 +87,7 @@ describe('pexels client integration tests', (): void => {
         const client = new DefaultPexelsClient({ apiKey: config.apiKey });
 
         try {
-            const photos = await client.photos.curated(5, 1);
+            const photos = await client.v1.photos.curated(5, 1);
 
             expect(photos).toMatchSchema(responseSchema);
             done();
@@ -100,8 +100,8 @@ describe('pexels client integration tests', (): void => {
         const client = new DefaultPexelsClient({ apiKey: config.apiKey });
 
         try {
-            const photos = await client.photos.curated();
-            const photo = await client.photos.fetch(photos.photos[1], 'small');
+            const photos = await client.v1.photos.curated();
+            const photo = await client.v1.photos.fetch(photos.photos[1], 'small');
 
             expect(photo).toMatchSchema(fetchSchema);
             expect(photo.data).toBeInstanceOf(Buffer);

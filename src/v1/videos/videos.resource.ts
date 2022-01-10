@@ -1,20 +1,27 @@
-import { IHttpClient } from '../http/http.client.interface';
-import { ISearchVideosParams, IPopularVideosParams } from './videos.resource.interface';
+import { IHttpClient } from '../../http/http.client.interface';
+import {
+    ISearchVideosParams,
+    IPopularVideosParams,
+    IVideoResponse,
+    ISearchVideosResponse
+} from './videos.resource.interface';
 
-export class VideosResource {
+export class VideosV1Resource {
 
-    private readonly defHeaders: object = {
-        Authorization: this.apiKey
-    };
+    private readonly _defHeaders: Record<string, string>;
+    private readonly _baseUrl: string = 'https://api.pexels.com/videos';
 
     constructor(
-        private readonly apiKey: string,
-        private readonly baseUrl: string,
+        apiKey: string,
         private readonly httpClient: IHttpClient
-    ) {}
+    ) {
+        this._defHeaders = {
+            Authorization: apiKey
+        };
+    }
 
-    public async search(query: string, kwargs: ISearchVideosParams = {}): Promise<any[]> {
-        const { perPage, page, maxDuration, minDuration, maxWidth, minWidth } = kwargs;
+    public async search(query: string, kwArgs: ISearchVideosParams = {}): Promise<ISearchVideosResponse> {
+        const { perPage, page, maxDuration, minDuration, maxWidth, minWidth } = kwArgs;
 
         const queryParams: {
             query: string,
@@ -51,13 +58,13 @@ export class VideosResource {
         }
 
         return this.httpClient.call(
-            `${this.baseUrl}/videos/search`,
-            { query: queryParams, headers: this.defHeaders, json: true }
+            `${this._baseUrl}/search`,
+            { query: queryParams, headers: this._defHeaders, json: true }
         );
     }
 
-    public async popular(kwargs: IPopularVideosParams = {}): Promise<any> {
-        const { perPage, page, maxDuration, minDuration, maxWidth, minWidth } = kwargs;
+    public async popular(kwArgs: IPopularVideosParams = {}): Promise<ISearchVideosResponse> {
+        const { perPage, page, maxDuration, minDuration, maxWidth, minWidth } = kwArgs;
 
         const queryParams: {
             per_page?: number,
@@ -93,15 +100,15 @@ export class VideosResource {
         }
 
         return this.httpClient.call(
-            `${this.baseUrl}/videos/popular`,
-            { headers: this.defHeaders, query: queryParams, json: true }
+            `${this._baseUrl}/popular`,
+            { headers: this._defHeaders, query: queryParams, json: true }
         );
     }
 
-    public async get(videoId: number): Promise<any> {
+    public async get(videoId: number): Promise<IVideoResponse> {
         return this.httpClient.call(
-            `${this.baseUrl}/videos/videos/${videoId}`,
-            { headers: this.defHeaders, json: true }
+            `${this._baseUrl}/videos/${videoId}`,
+            { headers: this._defHeaders, json: true }
         );
     }
 }

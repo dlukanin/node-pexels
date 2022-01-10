@@ -1,5 +1,5 @@
 export interface IHttpClient {
-    call(uri: string, opts?: IRequestParams): Promise<any>;
+    call<R = any>(uri: string, opts?: IRequestParams): Promise<R>;
 }
 
 export interface IRequestParams {

@@ -6,7 +6,7 @@ function main() {
         apiKey: '<YOUR_API_KEY>'
     });
     
-    client.photos.search('people', { perPage: 5, page: 1 })
+    client.v1.photos.search('people', { perPage: 5, page: 1 })
         .then(({ photos }) => {
             console.log(photos);
     
@@ -24,7 +24,7 @@ function main() {
             console.error(err);
         });
     
-    client.photos.get(1)
+    client.v1.photos.get(1)
         .then((photo) => {
             console.log(photo);
         })
@@ -32,7 +32,7 @@ function main() {
             console.log(err);
         });
 
-    client.photos.curated()
+    client.v1.photos.curated()
         .then(({ photos }) => {
             console.log(photos);
         })

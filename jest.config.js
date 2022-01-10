@@ -1,8 +1,10 @@
 module.exports = {
   preset: 'ts-jest',
-  roots: [
-    '<rootDir>/src/test/'
-  ],
   testEnvironment: 'node',
-  verbose: true
+  verbose: true,
+  testRegex: '.(test|spec).ts$',
+  collectCoverage: true,
+  collectCoverageFrom: ["src/**/*.ts"],
+  coverageDirectory: './coverage/',
+  moduleFileExtensions: ["ts", "js"],
 };

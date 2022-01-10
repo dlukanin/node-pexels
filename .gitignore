@@ -1,6 +1,5 @@
 photos
 build
-src/test/config.ts
 !src/test/config.ts.enc
 src/*.js
 *.js.map
