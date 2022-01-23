@@ -1,6 +1,6 @@
 {
   "name": "node-pexels",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Node client for https://www.pexels.com API",
   "main": "build/index.js",
   "typings": "build/index",
