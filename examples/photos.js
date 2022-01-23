@@ -16,7 +16,7 @@ function getCuratedPhotos(client) {
 }
 
 function main() {
-    const client = new Client({ apiKey: '<YOUR-API-KEY>' });
+    const client = new Client({ apiKey: process.env.YOUR_API_KEY });
     
     downloadPhoto(client).catch(console.error);
     
