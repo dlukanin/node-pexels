@@ -1,5 +1,5 @@
 # node-pexels
-Node unofiicial client for https://www.pexels.com API. Typescript definitions included.
+Node unofficial client for https://www.pexels.com API. Typescript definitions included.
 
 [![Build Status](https://travis-ci.org/dlukanin/node-pexels.svg?branch=master)](https://travis-ci.org/dlukanin/node-pexels)
 [![Coverage Status](https://coveralls.io/repos/github/dlukanin/node-pexels/badge.svg)](https://coveralls.io/github/dlukanin/node-pexels)
@@ -14,6 +14,16 @@ Node 10+
 
 
 ## Changelog
+
+#### v 2.0.0
+
+feat:
+- add video section
+- add api versioning support
+- separate api resources
+
+docs:
+- add examples
 
 #### v 1.0.0
 Security updates. Removed es5 support in lib.
@@ -35,71 +45,17 @@ Hello, world! First version of package.
 
 ## Usage
 
-```
-const Client = require('node-pexels').Client;
-const fs = require('fs');
-
-const client = new Client('your-api-key');
-
-client.search('people', 5, 1)
-    .then((results) => {
-        // Do something with results
-        console.log(results);
-        if (results.photos.length > 0) {
-            const photo = results.photos[0];
-            const source = 'medium';
-
-            return client.fetch(photo, source)
-        } else {
-            throw new Error('no results found');
-        }
-    })
-    .then((file) => {
-        return new Promise(
-            (reject, resolve) => {
-                fs.writeFile(
-                    `./img.${file.format}`,
-                    file.data,
-                    (err) => {
-                        if (err) {
-                            reject(err);
-                        }
-                        resolve();
-                    }
-                );
-            }
-        );
-    })
-    .catch((error) => {
-        // Something bad happened
-        console.error(error);
-    });
+```typescript
+async function main() {
+    const client = new Client({ apiKey: '<YOUR-API-KEY>' });
+    await client.v1.photos.curated();
+}
+main();
 ```
 
-## Docs
-### Client
-#### constructor(apiKey: string)
-Creates new API client instance.
+For more see `examples/`
 
-#### search(query: string, perPage?: number, page?: number): Promise\<IPexelsResponse\>
-Search request by provided query.
-
-#### photo(id: number): Promise\<IPexelsImage\>;
-Search photo by provided id.
-
-#### popular(perPage?: number, page?: number): Promise\<IPexelsResponse\>
-Popular photos request.
-
-### fetch(photo: IPexelsImage, src: TPexelsImageSource): Promise\<IImageData\>
-Fetch a photo file from the selected source.
-
-#### IPexelsResponse, IPexelsImage
-Responses from pexels api.
-
-#### IImageData
-Object containing an image buffer, and format.
-
-You can find schemas [here](https://github.com/dlukanin/node-pexels/blob/master/src/test/response_schema.ts)
+You can find schemas [here](https://github.com/dlukanin/node-pexels/blob/master/test/response_schema.ts)
 and response example on the [Pexels API](https://www.pexels.com/api) page.
 
 ## FAQ

@@ -63,6 +63,50 @@ export const photoSchema = {
     }
 };
 
+/*
+    readonly id: number;
+    readonly width: number;
+    readonly height: number;
+    readonly url: string;
+    readonly image: string;
+    readonly duration: number;
+*/
+
+export const videoV1Schema = {
+    type: 'object',
+    items: {
+        type: 'object',
+        required: [
+            'id',
+            'width',
+            'height',
+            'url',
+            'image',
+            'duration'
+        ],
+        properties: {
+            id: {
+                type: 'string'
+            },
+            width: {
+                type: 'number'
+            },
+            height: {
+                type: 'number'
+            },
+            url: {
+                type: 'string'
+            },
+            image: {
+                type: 'string'
+            },
+            duration: {
+                type: 'number'
+            }
+        }
+    }
+};
+
 const photosSchema = {
     ...photoSchema,
     type: 'array',

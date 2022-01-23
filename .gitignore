@@ -1,4 +1,4 @@
-photos
+./photos
 build
 !src/test/config.ts.enc
 src/*.js
@@ -22,3 +22,4 @@ jspm_packages
 .node_repl_history
 .idea
 application/configs/app.js
+.DS_Store

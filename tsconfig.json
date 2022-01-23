@@ -7,9 +7,10 @@
         "removeComments": true,
         "noLib": false,
         "declaration": true,
-        "rootDir": "./src",
         "declarationDir": "./build",
         "outDir": "./build",
         "suppressImplicitAnyIndexErrors": true
-    }
+    },
+    "include": ["./src/"],
+    "exclude": ["./node_modules/"]
 }
