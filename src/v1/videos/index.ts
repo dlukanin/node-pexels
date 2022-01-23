@@ -7,14 +7,10 @@ import {
 } from './interfaces';
 
 export class VideosV1Resource {
-
     private readonly _defHeaders: Record<string, string>;
     private readonly _baseUrl: string = 'https://api.pexels.com/videos';
 
-    constructor(
-        apiKey: string,
-        private readonly httpClient: IHttpClient
-    ) {
+    constructor(apiKey: string, private readonly httpClient: IHttpClient) {
         this._defHeaders = {
             Authorization: apiKey
         };

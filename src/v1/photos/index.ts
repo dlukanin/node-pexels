@@ -1,16 +1,12 @@
 import { IPexelsImage, IPexelsResponse, IImageData } from './interfaces';
-import * as Path from 'path';
+import { extname } from 'path';
 import { IHttpClient } from '../../common/http/interfaces';
 
 export class PhotosV1Resource {
-
     private readonly _defHeaders: Record<string, string>;
     private readonly _baseUrl: string = 'https://api.pexels.com/v1';
 
-    constructor(
-        apiKey: string,
-        private readonly httpClient: IHttpClient
-    ) {
+    constructor(apiKey: string, private readonly httpClient: IHttpClient) {
         this._defHeaders = {
             Authorization: apiKey
         };
@@ -77,7 +73,7 @@ export class PhotosV1Resource {
             { headers: this._defHeaders }
         );
 
-        const format = Path.extname(url.split('?')[0].split('#')[0]).replace('.', '');
+        const format = extname(url.split('?')[0].split('#')[0]).replace('.', '');
 
         return { format, data, source: src };
     }

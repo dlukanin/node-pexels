@@ -15,6 +15,16 @@ Node 10+
 
 ## Changelog
 
+#### v 2.0.0
+
+feat:
+- add video section
+- add api versioning support
+- separate api resources
+
+docs:
+- add examples
+
 #### v 1.0.0
 Security updates. Removed es5 support in lib.
 
@@ -35,7 +45,7 @@ Hello, world! First version of package.
 
 ## Usage
 
-```
+```typescript
 async function main() {
     const client = new Client({ apiKey: '<YOUR-API-KEY>' });
     await client.v1.photos.curated();

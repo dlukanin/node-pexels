@@ -1,8 +1,8 @@
 import { IHttpClient } from '../common/http/interfaces';
-import { PhotosV1Resource } from './photos/photos';
-import { VideosV1Resource } from './videos/videos';
+import { PhotosV1Resource } from './photos';
+import { VideosV1Resource } from './videos';
 
-export class V1 implements V1 {
+export class V1 {
     private readonly _photosResource: PhotosV1Resource;
     private readonly _videosResource: VideosV1Resource;
 
@@ -18,5 +18,4 @@ export class V1 implements V1 {
     public get videos(): VideosV1Resource {
         return this._videosResource;
     }
-
 }

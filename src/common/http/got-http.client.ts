@@ -2,7 +2,6 @@ import { IHttpClient, IRequestParams } from './interfaces';
 import * as Got from 'got';
 
 export class GotHttpClient implements IHttpClient {
-
     public async call<ResponseType>(url: string, params: IRequestParams): Promise<ResponseType> {
         const reqOpts: any = {};
 

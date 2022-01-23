@@ -1,5 +1,5 @@
 import { GotHttpClient } from './common/http/got-http.client';
-import { V1 } from './v1/v1';
+import { V1 } from './v1';
 
 export interface IPexelsClient {
     readonly v1: V1;
@@ -21,4 +21,4 @@ class DefaultPexelsClient implements IPexelsClient {
     }
 }
 
-export { DefaultPexelsClient as Client  };
+export { DefaultPexelsClient as Client };
