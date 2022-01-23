@@ -1,6 +1,6 @@
 examples
 src
-build/test
+build/
 coverage
 tsconfig.json
 .gitignore
@@ -8,3 +8,4 @@ tsconfig.json
 .travis.yml
 tslint.json
 .github
+test/
